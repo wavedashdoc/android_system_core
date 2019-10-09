@@ -197,6 +197,9 @@ bool GetDeviceLockStatus() {
     if (!android::base::ReadFileToString("/proc/cmdline", &cmdline)) {
         return true;
     }
+    if (android::base::GetProperty("ro.boot.vbmeta.device_state", "") != "locked") {
+        return false;
+    }
     return cmdline.find("androidboot.verifiedbootstate=orange") == std::string::npos;
 }
 
